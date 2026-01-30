@@ -1,9 +1,9 @@
-<nav x-data="{ open: false }" class="bg-canvas border-b border-gray-200">
+<nav x-data="{ open: false }" x-cloak class="bg-canvas border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <div class="shrink-0 flex items-center">
-                    <a href="/" class="font-bold text-xl text-black/75">
+                    <a href="/" class="font-bold text-xl text-black/80">
                         InventoryApp
                     </a>
                 </div>
@@ -28,9 +28,9 @@
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :active="request()->is('/')">Dashboard</x-responsive-nav-link>
-            <x-responsive-nav-link :active="request()->is('/products')">Products</x-responsive-nav-link>
-            <x-responsive-nav-link :active="request()->is('/suppliers')">Suppliers</x-responsive-nav-link>
+            <x-responsive-nav-link :active="request()->is('/')" href="/">Dashboard</x-responsive-nav-link>
+            <x-responsive-nav-link :active="request()->is('/products')" href="/products">Products</x-responsive-nav-link>
+            <x-responsive-nav-link :active="request()->is('/suppliers')" href="/suppliers">Suppliers</x-responsive-nav-link>
         </div>
     </div>
 </nav>

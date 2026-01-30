@@ -11,3 +11,7 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
     --color-canvas: #f9fafb
 }
+
+[x-cloak] {
+    display: none !important;
+}

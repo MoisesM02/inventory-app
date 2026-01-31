@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
@@ -67,24 +69,47 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        $productCategories = $product->categories;
+        return view('products.edit', [
+            'product' => $product,
+            'categories' => $categories,
+            'productCategories' => $productCategories
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        //Validate Product model data
+        $productData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'code' => ['nullable' , 'max:25', Rule::unique('products', 'code')->ignore($product->id)],
+            'unit' => ['nullable', 'string'],
+            'price' => ['nullable', 'numeric']
+        ]);
+
+        //Validate categories
+        $newCategories = $request->categories;
+        //Validate all categories exist
+        if($count = Category::find($newCategories)->count() != sizeof($newCategories))
+            throw ValidationException::withMessages(['categories' => "The selected categories are invalid."]);
+        $product->update($productData);
+        $product->categories()->sync($newCategories);
+
+        return redirect('/products/'. $product->id . '/edit')->with('success', 'Product updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $product)
     {
-        //
+        Product::destroy($product);
+        return redirect('/products')->with('success', 'Product deleted successfully!');
     }
 }

@@ -11,3 +11,6 @@ Route::get('/', function () {
 Route::get('/products/create', [ProductController::class, 'create']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::post('/products/create', [ProductController::class, 'store']);
+Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+Route::get('/products/{product}/edit', [ProductController::class, 'edit']);
+Route::patch('/products/{product}/edit', [ProductController::class, 'update']);

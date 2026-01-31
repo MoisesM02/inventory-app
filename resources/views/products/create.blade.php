@@ -19,8 +19,8 @@
                     <x-form.field>
                         <x-form.label for="code">Product Code</x-form.label>
                         <div class="mt-2">
-                            <x-form.input name="code"  placeholder="P0001" required/>
-                            <x-form.error name="code" />
+                            <x-form.input name="code" placeholder="P0001" required/>
+                            <x-form.error name="code"/>
                         </div>
                     </x-form.field>
 
@@ -28,24 +28,27 @@
                         <x-form.label for="price">Product Price ($USD)</x-form.label>
                         <div class="mt-2">
                             <x-form.input name="price" placeholder="50.00" required/>
-                            <x-form.error name="price" />
+                            <x-form.error name="price"/>
                         </div>
                     </x-form.field>
 
                     <x-form.field>
                         <x-form.label for="unit">Product Unit</x-form.label>
                         <div class="mt-2">
-                            <x-form.input name="unit"  placeholder="Bag" required/>
-                            <x-form.error name="unit" />
+                            <x-form.input name="unit" placeholder="Bag" required/>
+                            <x-form.error name="unit"/>
                         </div>
                     </x-form.field>
 
                     <x-form.field>
                         <x-form.label>Categories (Select multiple)</x-form.label>
-                        <x-form.error name="categories" />
+                        <x-form.error name="categories"/>
                         <div class="mt-2">
                             @foreach($categories as $category)
-                                <x-form.checkbox name="categories[]" value="{{ $category->id }}" label="{{$category->name}}"></x-form.checkbox>
+                                <x-form.checkbox name="categories[]"
+                                                 id="category_{{ $category->id }}"
+                                                 value="{{ $category->id }}"
+                                                 label="{{$category->name}}[]"></x-form.checkbox>
                             @endforeach
                         </div>
                     </x-form.field>
@@ -57,5 +60,5 @@
             <x-form.button>Save</x-form.button>
         </div>
     </form>
-    <x-flash-message />
+    <x-flash-message/>
 </x-layout>

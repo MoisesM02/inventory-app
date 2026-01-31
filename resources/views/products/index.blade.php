@@ -13,8 +13,8 @@
                     <x-table.th>Name</x-table.th>
                     <x-table.th>Code</x-table.th>
                     <x-table.th>Units</x-table.th>
-                    <x-table.th>Price</x-table.th>
-                    <x-table.th>Cost</x-table.th>
+                    <x-table.th>Selling Price</x-table.th>
+                    <x-table.th>Average Cost</x-table.th>
                     <x-table.th>Categories</x-table.th>
                     <x-table.th>Stock</x-table.th>
                     <x-table.th>Edit</x-table.th>
@@ -40,4 +40,5 @@
                 {{$products->links()}}
             </div>
         </x-table.layout>
+    <x-flash-message />
 </x-layout>

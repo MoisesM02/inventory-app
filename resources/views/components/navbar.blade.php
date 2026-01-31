@@ -21,6 +21,11 @@
                     Sign in
                 </a>
                 @endguest
+                @auth
+                        <form action="/logout">
+                            <buttton class="text-sm font-medium text-gray-500 hover:text-gray-900">Log Out</buttton>
+                        </form>
+                @endauth
             </div>
 
             <div class="-mr-2 flex items-center sm:hidden">

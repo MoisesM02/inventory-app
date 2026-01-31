@@ -15,8 +15,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         $categories = Category::factory(5)->create();
-        $products = Product::factory(50)->hasAttached($categories)->create();
-
+        Product::factory(50)->hasAttached($categories)->create();
         $this->call(SupplierSeeder::class);
     }
 }

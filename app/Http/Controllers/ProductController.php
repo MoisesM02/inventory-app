@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
@@ -12,7 +14,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::with('categories')->orderBy('name', 'asc')->paginate(15);
+        return view('products.index', [
+            'products' => $products
+        ]);
     }
 
     /**
@@ -20,7 +25,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('products.create', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -28,13 +36,30 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validate request
+        $productData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'code' => ['nullable', 'unique:products,code', 'max:25'],
+            'unit' => ['nullable', 'string'],
+            'price' => ['nullable', 'numeric']
+        ]);
+
+        $categories = $request->categories;
+        //Validate all categories exist
+        if($count = Category::find($categories)->count() != sizeof($categories))
+            throw ValidationException::withMessages(['categories' => "The selected categories are invalid."]);
+        //Create Product
+        $product = Product::create($productData);
+        //Add categories to product
+        $product->categories()->attach($categories);
+
+        return redirect('/products/create')->with('success', 'Product created successfully!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +67,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +75,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +83,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(string $id)
     {
         //
     }

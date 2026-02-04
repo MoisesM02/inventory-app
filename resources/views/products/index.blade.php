@@ -1,11 +1,11 @@
 <x-layout>
     <x-slot:header> Products </x-slot:header>
-
         <x-table.layout
             title="Products"
             description="A list of all your products"
             buttonText="Add product"
             buttonUrl="/products/create"
+            :filters="$categories"
         >
             <x-table.wrapper>
                 <thead class="bg-gray-50">

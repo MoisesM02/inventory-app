@@ -36,9 +36,10 @@
                 </tbody>
 
             </x-table.wrapper>
-            <div class="m-4">
-                {{$products->links()}}
-            </div>
+
         </x-table.layout>
+    <div class="m-4">
+        {{$products->links()}}
+    </div>
     <x-flash-message />
 </x-layout>

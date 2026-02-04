@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
@@ -48,7 +47,8 @@ class ProductController extends Controller
 
         $categories = $request->categories;
         //Validate all categories exist
-        if($count = Category::find($categories)->count() != sizeof($categories))
+        $dbCats = Category::find($categories);
+        if( ! is_null($dbCats) && $dbCats->count() != sizeof($categories))
             throw ValidationException::withMessages(['categories' => "The selected categories are invalid."]);
         //Create Product
         $product = Product::create($productData);
@@ -96,7 +96,8 @@ class ProductController extends Controller
         //Validate categories
         $newCategories = $request->categories;
         //Validate all categories exist
-        if($count = Category::find($newCategories)->count() != sizeof($newCategories))
+        $dbCats = Category::find($newCategories);
+        if(! is_null($dbCats) && $dbCats->count() != sizeof($newCategories))
             throw ValidationException::withMessages(['categories' => "The selected categories are invalid."]);
         $product->update($productData);
         $product->categories()->sync($newCategories);

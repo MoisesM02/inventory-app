@@ -45,10 +45,10 @@
                         <x-form.error name="categories"/>
                         <div class="mt-2">
                             @foreach($categories as $category)
-                                <x-form.checkbox name="categories[]"
+                                <x-form.checkbox name="categories"
                                                  id="category_{{ $category->id }}"
                                                  value="{{ $category->id }}"
-                                                 label="{{$category->name}}[]"></x-form.checkbox>
+                                                 label="{{$category->name}}"></x-form.checkbox>
                             @endforeach
                         </div>
                     </x-form.field>

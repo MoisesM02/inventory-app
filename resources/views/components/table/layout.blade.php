@@ -20,7 +20,7 @@
                 @if($filters)
                     <div class="flex items-center mb-2 sm:mb-0">
                         <form method="GET" action="{{ request()->path() }}" class="flex flex-wrap items-center gap-x-3 gap-y-2">
-                            <label for="category" class="text-sm font-medium text-gray-700 whitespace-nowrap sm:mt-2">
+                            <label for="category" class="text-sm font-medium text-gray-700 whitespace-nowrap mt-4">
                                 Filter by:
                             </label>
 

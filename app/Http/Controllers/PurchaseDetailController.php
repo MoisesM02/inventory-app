@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Purchase;
-use App\Services\CartService;
+use App\Models\PurchaseDetail;
 use Illuminate\Http\Request;
 
-class PurchaseController extends Controller
+class PurchaseDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,19 +26,15 @@ class PurchaseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CartService $cartService)
+    public function store(Request $request)
     {
-        $products = $cartService->getCartContents();
-        if ($products->isEmpty()) {
-            return redirect('/');
-        }
-        dd($products);
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Purchase $purchase)
+    public function show(PurchaseDetail $purchaseDetail)
     {
         //
     }
@@ -47,7 +42,7 @@ class PurchaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Purchase $purchase)
+    public function edit(PurchaseDetail $purchaseDetail)
     {
         //
     }
@@ -55,7 +50,7 @@ class PurchaseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Purchase $purchase)
+    public function update(Request $request, PurchaseDetail $purchaseDetail)
     {
         //
     }
@@ -63,7 +58,7 @@ class PurchaseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Purchase $purchase)
+    public function destroy(PurchaseDetail $purchaseDetail)
     {
         //
     }

@@ -41,7 +41,7 @@
     >
         <template x-for="product in results" :key="product.id">
             <div
-                x-data="{ qty: 1, cost: product.cost }"
+                x-data="{ qty: 1, cost: product.cost, unit : product.unit}"
                 class="border-b last:border-b-0 hover:bg-gray-50 transition-colors"
             >
                 <div class="overflow-x-auto">
@@ -51,8 +51,9 @@
 
                         <div class="flex-1 min-w-[150px]">
                             <div class="font-bold text-gray-800 text-sm truncate" x-text="product.name"></div>
-                            <div class="text-xs text-gray-500 font-mono mt-0.5">
+                            <div class="text-xs text-gray-500 font-mono mt-1.5">
                                 <span x-text="product.code"></span>
+                                <span x-text="'Unit: ' + product.unit" class=" p-1.5 rounded-xl bg-blue-600 text-white"></span>
                             </div>
                         </div>
 

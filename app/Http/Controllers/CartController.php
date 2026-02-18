@@ -33,9 +33,9 @@ class CartController extends Controller
     public function store(Request $request, CartService $cartService)
     {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-            'cost' => 'required|numeric|min:0' // New validation
+            'product_id' => ['required', 'exists:products,id'],
+            'quantity' => ['required', 'integer', 'min:1'],
+            'cost' => ['required', 'numeric', 'min:0']
         ]);
 
         $cartService->add(
@@ -63,7 +63,7 @@ class CartController extends Controller
             ->orWhere('code', 'like', "{$query}%") // Assuming you have a 'code' column
             ->orWhere('id', $query)
             ->take(10) // Limit results to keep it fast
-            ->get(['id', 'name', 'code', 'cost']); // Only fetch what we need
+            ->get(['id', 'name', 'code', 'cost', 'unit']); // Only fetch what we need
 
         return response()->json($products);
     }

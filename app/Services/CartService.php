@@ -10,9 +10,15 @@ class CartService
 {
     const SESSION_KEY = 'shopping_cart';
 
-    public function add(int $productId, int $quantity, ?float $customCost = 0) : void
+    public function add(int $productId, int $quantity, ?float $customCost = null) : void
     {
         $cart = Session::get(self::SESSION_KEY, []);
+
+        // If price is not provided, fetch current DB cost
+        if ($customCost === null) {
+            $product = Product::where('id', $productId)->get(['cost']);
+            $customCost = $product->cost;
+        }
 
         // Logic: If item exists, update it. If not, create it.
         // Note: This logic overwrites the old price if the item was already in cart.

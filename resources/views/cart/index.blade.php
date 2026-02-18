@@ -67,33 +67,48 @@
                 </div>
 
                 <div class="w-full lg:w-1/4">
-                    <div class="bg-white shadow-md rounded-lg p-6">
-                        <h2 class="text-lg font-bold mb-4">Order Summary</h2>
-                        <div class="my-3">
-                            <x-form.select name="supplier_id" x-for="supplier">
-                                @foreach($suppliers as $supplier)
-                                    <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>{{ $supplier->name }}</option>
-                                @endforeach
-                            </x-form.select>
+                    <form action="{{ route('purchases.store') }}" method="POST">
+                        <div class="bg-white shadow-md rounded-lg p-6">
+                            <h2 class="text-lg font-bold mb-4">Order Summary</h2>
+                            <div class="my-3 flex-row align-items-center space-y-3">
+                                <div>
+                                    <x-form.label for="invoice_number">Invoice number:</x-form.label>
+                                    <x-form.input name="invoice_number"/>
+                                </div>
+                                <div>
+                                    <x-form.label for="description">Description:</x-form.label>
+                                    <x-form.input name="description"/>
+                                </div>
+
+                            </div>
+                            <div class="my-3">
+                                <x-form.label for="supplier_id">Supplier:</x-form.label>
+                                <x-form.select name="supplier_id" x-for="supplier">
+                                    @foreach($suppliers as $supplier)
+                                        <option value="{{ $supplier->id }}" {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>{{ $supplier->name }}</option>
+                                    @endforeach
+                                </x-form.select>
+                            </div>
+                            <div class="flex justify-between mb-2 text-gray-600">
+                                <span>Subtotal</span>
+                                <span>${{ number_format($grandTotal, 2) }}</span>
+                            </div>
+                            <div class="border-t pt-4 flex justify-between font-bold text-xl mb-6">
+                                <span>Total</span>
+                                <span>${{ number_format($grandTotal, 2) }}</span>
+                            </div>
+
+                                @csrf
+                                <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
+                                    Proceed to Checkout
+                                </button>
                         </div>
-                        <div class="flex justify-between mb-2 text-gray-600">
-                            <span>Subtotal</span>
-                            <span>${{ number_format($grandTotal, 2) }}</span>
-                        </div>
-                        <div class="border-t pt-4 flex justify-between font-bold text-xl mb-6">
-                            <span>Total</span>
-                            <span>${{ number_format($grandTotal, 2) }}</span>
-                        </div>
-                        <form action="{{ route('purchase.store') }}" method="POST">
-                            @csrf
-                            <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
-                                Proceed to Checkout
-                            </button>
-                        </form>
-                    </div>
+                    </form>
                 </div>
 
             </div>
         @endif
     </div>
+
+    <x-flash-message/>
 </x-layout>

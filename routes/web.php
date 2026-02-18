@@ -17,10 +17,12 @@ Route::delete('/products/{product}', [ProductController::class, 'destroy']);
 Route::get('/products/{product}/edit', [ProductController::class, 'edit']);
 Route::patch('/products/{product}/edit', [ProductController::class, 'update']);
 
-
-Route::get('/cart/search', [CartController::class, 'show'])->name('cart.search');
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+//Purchases
+Route::get('/purchases/cart/search', [CartController::class, 'show'])->name('cart.search');
+Route::get('/purchases/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/purchases/cart', [CartController::class, 'store'])->name('cart.store');
 Route::delete('/cart/{productId}', [CartController::class, 'destroy'])->name('cart.destroy');
 
-Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchase.store');
+Route::get('/purchases', [PurchaseController::class, 'index'])->name('purchases.index');
+Route::get('/purchases/details/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
+Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');

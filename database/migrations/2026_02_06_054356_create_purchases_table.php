@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->string('invoice_number')->unique();
-            $table->string('description');
+            $table->foreignIdFor(Supplier::class);
+            $table->string('description')->nullable();
             $table->double('total_cost');
             $table->timestamps();
         });

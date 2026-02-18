@@ -11,6 +11,7 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="/" :active="request()->is('/')"> Dashboard</x-nav-link>
                     <x-nav-link href="/products" :active="request()->is('products*')"> Products</x-nav-link>
+                    <x-nav-link href="/purchases" :active="request()->is('purchases*')">Purchases</x-nav-link>
                     <x-nav-link href="/suppliers" :active="request()->is('suppliers*')"> Suppliers</x-nav-link>
                 </div>
             </div>

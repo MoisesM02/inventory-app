@@ -1,4 +1,4 @@
-@props(['name', 'label' => null, 'value' => null])
+@props(['name', 'label' => null])
 <div>
     <select
         id="{{ $name }}"

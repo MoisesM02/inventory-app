@@ -19,4 +19,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function suppliers() : belongsToMany
+    {
+        return $this->belongsToMany(Supplier::class, 'purchases', 'id', 'supplier_id');
+    }
 }

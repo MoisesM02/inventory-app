@@ -65,7 +65,8 @@
     >
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :active="request()->is('/')" href="/">Dashboard</x-responsive-nav-link>
-            <x-responsive-nav-link :active="request()->is('products')" href="/products">Products</x-responsive-nav-link>
+            <x-responsive-nav-link :active="request()->is('products*')" href="/products">Products</x-responsive-nav-link>
+            <x-responsive-nav-link :active="request()->is('purchases*')" href="/purchases">Purchases</x-responsive-nav-link>
             <x-responsive-nav-link :active="request()->is('suppliers')" href="/suppliers">Suppliers</x-responsive-nav-link>
         </div>
 

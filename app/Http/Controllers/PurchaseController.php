@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Purchase;
-use App\Models\PurchaseDetail;
+use App\Models\Supplier;
 use App\Services\CartService;
 use App\Services\PurchaseService;
 use Illuminate\Http\Request;
@@ -13,11 +13,18 @@ class PurchaseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $purchases = Purchase::orderBy('created_at', 'desc')->with('supplier')->withCount('details')->paginate(10);
+        $suppliers = Supplier::all();
+        $purchases = Purchase::orderBy('created_at', 'desc')
+        ->with('supplier')
+        ->withCount('details');
+        if ($request->supplier)
+            $purchases->where('supplier_id', '=', $request->supplier );
+
         return view('purchases.index',[
-            'purchases' => $purchases
+            'purchases' => $purchases->paginate(10),
+            'suppliers' => $suppliers
         ]);
     }
 
@@ -46,8 +53,12 @@ class PurchaseController extends Controller
             return redirect('/');
         }
         $processed = $purchaseService->process($products, $validatedData);
-        $cartService->clear();
-        return redirect(route('cart.index'))->with('success', 'Purchase stored successfully!' );
+        if($processed)
+        {
+            $cartService->clear();
+            return redirect(route('purchases.index'))->with('success', 'Purchase stored successfully!' );
+        }
+        return redirect(route('cart.index'))->with('error', 'There was a problem processing the purchase' );
     }
 
     /**
@@ -78,11 +89,9 @@ class PurchaseController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Purchase $purchase)
+    public function outward(Purchase $purchase)
     {
-        //
+        $details = $purchase->details()->with('product')->get();
+        dd($details);
     }
 }

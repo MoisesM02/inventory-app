@@ -26,3 +26,4 @@ Route::delete('/cart/{productId}', [CartController::class, 'destroy'])->name('ca
 Route::get('/purchases', [PurchaseController::class, 'index'])->name('purchases.index');
 Route::get('/purchases/details/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
 Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');
+Route::post('/purchases/outward/{purchase}', [PurchaseController::class, 'outward'])->name('purchases.return');

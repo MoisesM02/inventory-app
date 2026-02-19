@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('purchase_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Purchase::class)->constrained();
-            $table->foreignIdFor(Product::class)->constrained();
+            $table->foreignIdFor(Purchase::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->integer('quantity');
             $table->double('cost');
             $table->timestamps();

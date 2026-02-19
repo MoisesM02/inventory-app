@@ -8,7 +8,7 @@
             :filters="$categories"
         >
             <x-table.wrapper>
-                <thead class="bg-gray-50">
+                <x-slot:head>
                 <tr>
                     <x-table.th>Name</x-table.th>
                     <x-table.th>Code</x-table.th>
@@ -19,8 +19,8 @@
                     <x-table.th>Stock</x-table.th>
                     <x-table.th>Edit</x-table.th>
                 </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                </x-slot:head>
+
                 @foreach($products as $product)
                     <tr>
                         <x-table.td><p class="text-md font-bold">{{ $product->name}} </p></x-table.td>
@@ -33,10 +33,8 @@
                         <x-table.td><a href="/products/{{ $product->id }}/edit" class="text-blue-700 hover:underline">Edit</a></x-table.td>
                     </tr>
                 @endforeach
-                </tbody>
 
             </x-table.wrapper>
-
         </x-table.layout>
     <div class="m-4">
         {{$products->links()}}

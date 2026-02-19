@@ -1,4 +1,11 @@
-@props(['title', 'description' => null, 'buttonText' => null, 'buttonUrl' => '#', 'filters' => null])
+@props(['title',
+        'description' => null,
+        'buttonText' => null,
+        'buttonUrl' => '#',
+        'filters' => null,
+        'filterText' => 'Filter by category:',
+        'filterName' => 'category'
+        ])
 
 <div class="bg-white shadow sm:rounded-lg border border-gray-200 mb-8">
     @if($title)
@@ -21,19 +28,19 @@
                     <div class="flex items-center mb-2 sm:mb-0">
                         <form method="GET" action="{{ request()->path() }}" class="flex flex-wrap items-center gap-x-3 gap-y-2">
                             <label for="category" class="text-sm font-medium text-gray-700 whitespace-nowrap mt-4">
-                                Filter by:
+                                {{ $filterText }}
                             </label>
 
                             <div class="w-40">
                                 <x-form.select
-                                    name="category"
+                                    name="{{ $filterName }}"
                                     onchange="this.form.submit()"
                                 >
-                                    <option value="">All Categories</option>
+                                    <option value="">All</option>
                                     @foreach($filters as $category)
                                         <option
                                             value="{{ $category->id }}"
-                                            {{ request('category') == $category->id ? 'selected' : '' }}
+                                            {{ request($filterName) == $category->id ? 'selected' : '' }}
                                         >
                                             {{ $category->name }}
                                         </option>
@@ -41,7 +48,7 @@
                                 </x-form.select>
                             </div>
 
-                            @if(request('category'))
+                            @if(request($filterName))
                                 <a href="{{ request()->path() }}" class="text-sm text-red-600 hover:text-red-800 underline whitespace-nowrap">
                                     Clear
                                 </a>

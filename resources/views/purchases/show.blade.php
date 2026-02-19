@@ -5,15 +5,15 @@
         :description="'Purchase made to ' . $purchase->supplier->name . ' on ' .  date_format($purchase->created_at , 'D, M d Y') "
     >
         <x-table.wrapper>
-            <thead class="bg-gray-50">
+            <x-slot:head class="bg-gray-50">
                 <tr>
                     <x-table.th>N°</x-table.th>
                     <x-table.th>Product</x-table.th>
                     <x-table.th>Products Cost</x-table.th>
                     <x-table.th>Qty.</x-table.th>
                 </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            </x-slot:head>
+
                 @foreach($details as $detail)
                     <tr>
                         <x-table.td> {{ $loop->iteration }}</x-table.td>
@@ -22,15 +22,20 @@
                         <x-table.td> {{ $detail->quantity }} <span class="text-xs text-gray-600/75">({{$detail->product->unit}})</span></x-table.td>
                     </tr>
                 @endforeach
-            </tbody>
-            <tfoot>
+
+            <x-slot:foot>
                 <tr>
                     <x-table.td><span class="font-bold text-lg">Total</span></x-table.td>
                     <x-table.td></x-table.td>
                     <x-table.td>${{ number_format($purchase->total_cost , 2) }}</x-table.td>
                     <x-table.td>{{ $details->sum('quantity') }} products</x-table.td>
                 </tr>
-            </tfoot>
+            </x-slot:foot>
         </x-table.wrapper>
     </x-table.layout>
+    <x-form.modal-confirm
+    :action="route('purchases.return', $purchase)"
+    >
+        <x-form.button class="text-white hover:bg-red-900 bg-red-700 font-medium text-sm" type="button">Return purchase</x-form.button>
+    </x-form.modal-confirm>
 </x-layout>

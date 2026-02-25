@@ -16,16 +16,18 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+            <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-6">
                 @guest
                 <a href="/login" class="text-sm font-medium text-gray-500 hover:text-gray-900">
                     Sign in
                 </a>
                 @endguest
                 @auth
-                        <form action="/logout">
-                            <buttton class="text-sm font-medium text-gray-500 hover:text-gray-900">Log Out</buttton>
-                        </form>
+                    <h3 class="text-gray-500 text-lg"> {{ Auth::user()['username'] }} </h3>
+                    <form action="/logout" method="POST">
+                        @csrf
+                        <button type="submit" class="text-sm font-medium text-gray-500 hover:text-gray-900 underline">Log Out</button>
+                    </form>
                 @endauth
             </div>
 

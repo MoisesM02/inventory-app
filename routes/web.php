@@ -17,13 +17,20 @@ Route::delete('/products/{product}', [ProductController::class, 'destroy']);
 Route::get('/products/{product}/edit', [ProductController::class, 'edit']);
 Route::patch('/products/{product}/edit', [ProductController::class, 'update']);
 
-//Purchases
+//Purchases cart
 Route::get('/purchases/cart/search', [CartController::class, 'show'])->name('cart.search');
 Route::get('/purchases/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/purchases/cart', [CartController::class, 'store'])->name('cart.store');
 Route::delete('/cart/{productId}', [CartController::class, 'destroy'])->name('cart.destroy');
 
+//Purchases
 Route::get('/purchases', [PurchaseController::class, 'index'])->name('purchases.index');
 Route::get('/purchases/details/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
 Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');
 Route::post('/purchases/outward/{purchase}', [PurchaseController::class, 'outward'])->name('purchases.return');
+
+
+//Login
+Route::get('/login', [\App\Http\Controllers\SessionController::class, 'create'])->name('login');
+Route::post('/login', [\App\Http\Controllers\SessionController::class, 'store']);
+Route::post('/logout', [\App\Http\Controllers\SessionController::class, 'destroy'])->name('logout');

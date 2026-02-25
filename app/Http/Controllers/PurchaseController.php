@@ -15,7 +15,7 @@ class PurchaseController extends Controller
      */
     public function index(Request $request)
     {
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::orderBy('name')->get();
         $purchases = Purchase::orderBy('created_at', 'desc')
         ->with('supplier')
         ->withCount('details');

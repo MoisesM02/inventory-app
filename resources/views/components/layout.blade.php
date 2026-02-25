@@ -1,3 +1,4 @@
+@props(['useNav' => true])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -11,8 +12,9 @@
 </head>
 <body class="font-sans antialiased bg-canvas text-gray-900">
 <div class="min-h-screen flex flex-col">
-    <x-navbar />
-
+    @if($useNav)
+        <x-navbar />
+    @endif
     @if (isset($header))
         <header class="bg-blue-50 border-b border-gray-100">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">

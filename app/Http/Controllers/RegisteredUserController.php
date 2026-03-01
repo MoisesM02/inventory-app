@@ -12,11 +12,18 @@ class RegisteredUserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::all()->except(1);
 
-        return view();
+        return view('users.index', [
+            'users' => $users
+        ]);
     }
     public function create(Request $request)
+    {
+        
+    }
+
+    public function store(Request $request)
     {
         $userAttributes = $request->validate([
             'username' => 'required|string|unique:users,username',
@@ -25,6 +32,6 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create($userAttributes);
-        return response()->json(['message' => 'User created!']);
+        return redirect('/users')->with(['success' => 'User created!']);
     }
 }

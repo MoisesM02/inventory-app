@@ -17,8 +17,6 @@ class PurchaseService
     public function __construct(public Collection $details = new Collection()){}
     public function process(Collection $products, array $data): Bool
     {
-//        $this->total = $products->sum(fn ($item) => $item->getSubtotal());
-
         //Begin transaction in case of failure
         DB::beginTransaction();
 

@@ -31,7 +31,7 @@
                 x-transition:leave="ease-in duration-200"
                 x-transition:leave-start="opacity-100"
                 x-transition:leave-end="opacity-0"
-                class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                class="fixed inset-0 bg-gray-900/30 backdrop-blur-sm transition-opacity"
                 @click="modalOpen = false"
                 aria-hidden="true"
             ></div>

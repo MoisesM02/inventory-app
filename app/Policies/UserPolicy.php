@@ -8,7 +8,11 @@ use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
-        private function before(User $user): bool
+        public function before(User $user): bool
+    {
+        return $user->role === UserRoles::ADMIN;
+    }
+    public function viewAny(User $user): bool
     {
         return $user->role === UserRoles::ADMIN;
     }

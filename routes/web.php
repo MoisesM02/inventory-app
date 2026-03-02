@@ -13,7 +13,7 @@ Route::middleware(['auth'])->group(function () {
 
 //main route
     Route::get('/', function () {
-        $usersCount = User::count();
+        $usersCount = User::all()->except([1])->count();
         return view('welcome',
         [
             'usersCount' => $usersCount
@@ -44,8 +44,10 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('can:viewAny,' . User::class)->group(function(){
         Route::get('/users', [RegisteredUserController::class, 'index']);
         Route::post('/users', [RegisteredUserController::class, 'store']);
+        Route::get('/users/{user}', [RegisteredUserController::class, 'edit'])->name('users.edit');
+        Route::patch('/users/{user}', [RegisteredUserController::class, 'update'])->name('users.update');
     });
-    
+
 });
 
 

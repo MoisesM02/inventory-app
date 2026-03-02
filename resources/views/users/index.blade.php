@@ -10,6 +10,28 @@
             </x-modals.trigger>
         </x-slot:button>
 
+        <x-table.wrapper>
+            <x-slot:head>
+                <tr>
+                    <x-table.th>N°</x-table.th>
+                    <x-table.th>Username</x-table.th>
+                    <x-table.th>Role</x-table.th>
+                    <x-table.th>Created on</x-table.th>
+                    <x-table.th>Actions</x-table.th>
+                </tr>
+            </x-slot:head>
+
+            @foreach($users as $user)
+                <tr>
+                    <x-table.td>{{ $loop->iteration }}</x-table.td>
+                    <x-table.td>{{ $user->username }}</x-table.td>
+                    <x-table.td>{{ $user->role }}</x-table.td>
+                    <x-table.td>{{ $user->created_at }}</x-table.td>
+                    <x-table.td> <x-link href="{{ route('users.edit', $user) }}">Edit</x-link></x-table.td>
+                </tr>
+            @endforeach
+        </x-table.wrapper>
+
     </x-table.layout>
     <x-modals.form action="/users" name="create-user" title="Create new user">
         <x-form.field>
@@ -45,5 +67,6 @@
             </div>
         </x-form.field>
     </x-modals.form>
+
     <x-flash-message />
 </x-layout>

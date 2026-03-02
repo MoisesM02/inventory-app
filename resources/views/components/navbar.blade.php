@@ -73,10 +73,19 @@
         </div>
 
         <div class="pt-4 pb-4 border-t border-gray-200">
-            <div class="space-y-1">
-                <x-responsive-nav-link href="/login">
-                    Sign in
-                </x-responsive-nav-link>
+            <div class="space-y-1 flex flex-column justify-between mx-3">
+                @auth
+                    <h3 class="text-gray-500 text-lg"> {{ Auth::user()['username'] }} </h3>
+                    <form action="/logout" method="POST">
+                        @csrf
+                        <button type="submit" class="text-sm font-medium text-gray-500 hover:text-gray-900 underline">Log Out</button>
+                    </form>
+                @endauth
+                @guest
+                    <x-responsive-nav-link href="/login">
+                        Sign in
+                    </x-responsive-nav-link>
+                @endguest
             </div>
         </div>
     </div>

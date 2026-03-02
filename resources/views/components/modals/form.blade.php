@@ -1,7 +1,8 @@
 @props(['name', 'title', 'action'])
 
-<div 
-    x-data="{ show: false, name: '{{ $name }}' }"
+<div
+    x-data="{
+        show: false, name: '{{ $name }}' }"
     x-show="show"
     x-on:open-modal.window="if ($event.detail === name) show = true"
     x-on:close-modal.window="show = false"
@@ -11,7 +12,7 @@
     role="dialog"
     aria-modal="true"
 >
-    <div 
+    <div
         x-show="show"
         x-transition:enter="ease-out duration-300"
         x-transition:enter-start="opacity-0"
@@ -24,7 +25,7 @@
     ></div>
 
     <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
-        <div 
+        <div
             x-show="show"
             x-transition:enter="ease-out duration-300"
             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -36,7 +37,7 @@
         >
             <form method="POST" action="{{ $action }}">
                 @csrf
-                
+
                 <div class="bg-gray-50 px-4 py-3 border-b border-gray-100 flex justify-between items-center">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">
                         {{ $title }}

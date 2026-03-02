@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\RegisteredUserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 
@@ -11,7 +13,11 @@ Route::middleware(['auth'])->group(function () {
 
 //main route
     Route::get('/', function () {
-        return view('welcome');
+        $usersCount = User::all()->except([1])->count();
+        return view('welcome',
+        [
+            'usersCount' => $usersCount
+        ]);
     });
 
 //Products
@@ -33,6 +39,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/purchases/details/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
     Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');
     Route::post('/purchases/outward/{purchase}', [PurchaseController::class, 'outward'])->name('purchases.return');
+
+//Users Management
+    Route::middleware('can:viewAny,' . User::class)->group(function(){
+        Route::get('/users', [RegisteredUserController::class, 'index']);
+        Route::post('/users', [RegisteredUserController::class, 'store']);
+        Route::get('/users/{user}', [RegisteredUserController::class, 'edit'])->name('users.edit');
+        Route::patch('/users/{user}', [RegisteredUserController::class, 'update'])->name('users.update');
+    });
 
 });
 

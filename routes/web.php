@@ -26,7 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/suppliers/create', [SupplierController::class, 'create'])->name('suppliers.create');
     Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
     Route::get('/suppliers/edit/{supplier}', [SupplierController::class, 'edit'])->name('suppliers.edit');
-    Route::patch('/suppliers/{supplier}', [SupplierController::class, 'update'])->name('suppliers.update');
+    Route::patch('/suppliers/edit/{supplier}', [SupplierController::class, 'update'])->name('suppliers.update');
     Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
 //Products
@@ -53,14 +53,15 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('can:viewAny,' . User::class)->group(function(){
         Route::get('/users', [RegisteredUserController::class, 'index']);
         Route::post('/users', [RegisteredUserController::class, 'store']);
-        Route::get('/users/{user}', [RegisteredUserController::class, 'edit'])->name('users.edit');
+        Route::get('/users/edit/{user}', [RegisteredUserController::class, 'edit'])->name('users.edit');
         Route::patch('/users/{user}', [RegisteredUserController::class, 'update'])->name('users.update');
+        Route::delete('/users/{user}', [RegisteredUserController::class, 'destroy'])->name('users.destroy');
     });
 
 });
 
 
-//Login
+//Session Control
 Route::get('/login', [\App\Http\Controllers\SessionController::class, 'create'])->name('login');
 Route::post('/login', [\App\Http\Controllers\SessionController::class, 'store']);
 Route::post('/logout', [\App\Http\Controllers\SessionController::class, 'destroy'])->name('logout');

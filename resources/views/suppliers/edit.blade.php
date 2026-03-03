@@ -1,8 +1,10 @@
 <x-layout>
     <x-slot:header>Edit supplier info</x-slot:header>
 
-    <div class="m-auto">
-        <x-form.form method="POST" class="md:w-[50vw] sm:w-[80vw]" action="{{ route('suppliers.update', $supplier) }}">
+    <div class="m-auto max-w-7xl">
+        <x-form.form method="POST" class="md:w-[50vw] sm:w-[80vw]" id="edit-form" action="{{ route('suppliers.update', $supplier) }}">
+            @csrf
+            @method('PATCH')
             <x-form.field>
                 <x-form.label for="name">Supplier Name</x-form.label>
                 <x-form.input name="name" placeholder="Factory Inc." value="{{ $supplier->name }}"/>
@@ -28,17 +30,18 @@
                 <x-form.input name="phone" placeholder="+5037777555" value="{{ $supplier->phone }}"/>
                 <x-form.error name="phone"/>
             </x-form.field>
-            <div class="flex flex-row justify-between my-4">
-                <x-form.modal-confirm
-                    title="Do you really want to delete this supplier?"
-                    :action="route('suppliers.destroy', $supplier)"
-                    method="DELETE"
-                >
-                <x-form.button form="delete-form" :delete="true">Delete</x-form.button>
-                </x-form.modal-confirm>
-                <x-form.button>Save changes</x-form.button>
-            </div>
+
         </x-form.form>
+        <div class="flex flex-row justify-between my-4 md:w-[50vw] sm:w-[80vw] m-auto">
+            <x-form.modal-confirm
+                title="Do you really want to delete this supplier?"
+                :action="route('suppliers.destroy', $supplier)"
+                method="DELETE"
+            >
+                <x-form.button form="delete-form" :delete="true">Delete</x-form.button>
+            </x-form.modal-confirm>
+            <x-form.button form="edit-form">Save changes</x-form.button>
+        </div>
     </div>
 
 

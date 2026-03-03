@@ -32,8 +32,8 @@
                     <x-table.td class="whitespace-normal"> {{ $supplier->name }}</x-table.td>
                     <x-table.td class="whitespace-normal"> {{ $supplier->address }}</x-table.td>
                     <x-table.td class="whitespace-normal"> {{ $supplier->contact_person ?? 'Not defined' }}</x-table.td>
-                    <x-table.td class="whitespace-normal"> {{ $supplier->phone ?? 'Not defined' }}</x-table.td>
-                    <x-table.td class="whitespace-normal"> {{ $supplier->email ?? 'Not defined' }}</x-table.td>
+                    <x-table.td class="whitespace-normal"><x-link href="tel:{{ $supplier->phone ?? '' }}">{{ $supplier->phone ?? 'Not defined' }}</x-link> </x-table.td>
+                    <x-table.td class="whitespace-normal"><x-link href="mailto:{{ $supplier->email ?? '' }}"> {{ $supplier->email ?? 'Not defined' }}</x-link></x-table.td>
                     <x-table.td> <x-link href="{{ route('suppliers.edit', $supplier) }}">Modify</x-link></x-table.td>
                 </tr>
             @endforeach
@@ -41,4 +41,6 @@
         </x-table.wrapper>
     </x-table.layout>
     {{ $suppliers->links() }}
+
+    <x-flash-message/>
 </x-layout>

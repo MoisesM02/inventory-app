@@ -62,5 +62,18 @@ class RegisteredUserController extends Controller
         return redirect(route('users.edit', $user))->with(['success' => 'User updated!']);
     }
 
+    public function destroy(User $user)
+    {
+        if (Auth::user()->is($user)) //Log Out User if the account deleted is the account in use
+        {
+            abort(403, 'You cannot delete your own account.');
+//            Auth::logout();
+//            request()->session()->invalidate();
+//            request()->session()->regenerateToken();
+        }
+        $user->delete();
+        return redirect('/users')->with(['success' => 'User deleted!']);
+    }
+
 
 }

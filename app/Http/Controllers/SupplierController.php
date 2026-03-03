@@ -12,7 +12,10 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        //
+        $suppliers = Supplier::simplePaginate(10);
+        return view('suppliers.index',
+        ['suppliers' => $suppliers
+        ]);
     }
 
     /**
@@ -44,7 +47,7 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        //
+        dd($supplier);
     }
 
     /**

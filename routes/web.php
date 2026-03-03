@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\SupplierController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,10 @@ Route::middleware(['auth'])->group(function () {
             'usersCount' => $usersCount
         ]);
     });
+
+    // Suppliers
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::get('/suppliers/edit/{supplier}', [SupplierController::class, 'edit'])->name('suppliers.edit');
 
 //Products
     Route::get('/products/create', [ProductController::class, 'create']);

@@ -8,11 +8,19 @@
                     </a>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex flex items-center">
                     <x-nav-link href="/" :active="request()->is('/')"> Dashboard</x-nav-link>
                     <x-nav-link href="/products" :active="request()->is('products*')"> Products</x-nav-link>
                     <x-nav-link href="/purchases" :active="request()->is('purchases*')">Purchases</x-nav-link>
-                    <x-nav-link href="/suppliers" :active="request()->is('suppliers*')"> Suppliers</x-nav-link>
+                    <div class="relative">
+                        <x-navbar.dropdown class="pt-4" align="left">
+                            <x-slot:trigger> <x-nav-link href="#" :active="request()->is(['suppliers*', 'categories*'])">Miscellaneous</x-nav-link></x-slot:trigger>
+                            <x-navbar.dropdown-link href="/suppliers" >Suppliers</x-navbar.dropdown-link>
+                            <x-navbar.dropdown-link href="/categories">Categories</x-navbar.dropdown-link>
+                        </x-navbar.dropdown>
+
+                    </div>
+
                 </div>
             </div>
 
@@ -23,11 +31,7 @@
                 </a>
                 @endguest
                 @auth
-                    <h3 class="text-gray-500 text-lg"> {{ Auth::user()['username'] }} </h3>
-                    <form action="/logout" method="POST">
-                        @csrf
-                        <button type="submit" class="text-sm font-medium text-gray-500 hover:text-gray-900 underline">Log Out</button>
-                    </form>
+                    <x-navbar.logout-form/>
                 @endauth
             </div>
 
@@ -69,17 +73,14 @@
             <x-responsive-nav-link :active="request()->is('/')" href="/">Dashboard</x-responsive-nav-link>
             <x-responsive-nav-link :active="request()->is('products*')" href="/products">Products</x-responsive-nav-link>
             <x-responsive-nav-link :active="request()->is('purchases*')" href="/purchases">Purchases</x-responsive-nav-link>
-            <x-responsive-nav-link :active="request()->is('suppliers')" href="/suppliers">Suppliers</x-responsive-nav-link>
+            <x-responsive-nav-link :active="request()->is('suppliers*')" href="/suppliers">Suppliers</x-responsive-nav-link>
+            <x-responsive-nav-link :active="request()->is('categories*')" href="/categories">Categories</x-responsive-nav-link>
         </div>
 
         <div class="pt-4 pb-4 border-t border-gray-200">
             <div class="space-y-1 flex flex-column justify-between mx-3">
                 @auth
-                    <h3 class="text-gray-500 text-lg"> {{ Auth::user()['username'] }} </h3>
-                    <form action="/logout" method="POST">
-                        @csrf
-                        <button type="submit" class="text-sm font-medium text-gray-500 hover:text-gray-900 underline">Log Out</button>
-                    </form>
+                    <x-navbar.logout-form/>
                 @endauth
                 @guest
                     <x-responsive-nav-link href="/login">

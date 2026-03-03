@@ -23,7 +23,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        return view('suppliers.create');
     }
 
     /**
@@ -31,7 +31,12 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $supplierAttributes = $request->validate([
+           'name' => ['required', 'string', 'max:64'],
+           'phone' => ['required', 'string', 'max:64'],
+            'contact_person' => ['required', 'string', 'max:64'],
+        ]);
+        dd($request);
     }
 
     /**
@@ -47,7 +52,9 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        dd($supplier);
+        return view('suppliers.edit', [
+            'supplier' => $supplier
+        ]);
     }
 
     /**
@@ -63,6 +70,7 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        $supplier->delete();
+        return redirect()->route('suppliers.index')->with('success', 'Supplier has been deleted');
     }
 }

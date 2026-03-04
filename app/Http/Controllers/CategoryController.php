@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -12,7 +13,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $filters = Product::orderBy('name', 'ASC')->get();
+        $categories = Category::with('products')->paginate(10);
+        return view('categories.index', [
+            'products' => $filters,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -20,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -28,7 +34,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $categoryAttributes = $request->validate([
+           'name' => ['required', 'string', 'min:3', 'unique:categories,name'],
+        ]);
+        Category::create($categoryAttributes);
+
+        return redirect('/categories')->with('success', 'Category created!');
     }
 
     /**

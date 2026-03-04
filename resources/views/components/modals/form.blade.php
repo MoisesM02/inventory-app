@@ -1,8 +1,8 @@
-@props(['name', 'title', 'action'])
+@props(['name', 'title', 'action', 'method' => 'POST', 'shouldShow' => 'false'])
 
 <div
     x-data="{
-        show: false, name: '{{ $name }}' }"
+        show: {{ $shouldShow }}, name: '{{ $name }}' }"
     x-show="show"
     x-on:open-modal.window="if ($event.detail === name) show = true"
     x-on:close-modal.window="show = false"
@@ -37,7 +37,7 @@
         >
             <form method="POST" action="{{ $action }}">
                 @csrf
-
+                @method($method)
                 <div class="bg-gray-50 px-4 py-3 border-b border-gray-100 flex justify-between items-center">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">
                         {{ $title }}
@@ -59,7 +59,7 @@
                         Cancel
                     </button>
                     <button type="submit" class="px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Save Changes
+                        Save
                     </button>
                 </div>
             </form>

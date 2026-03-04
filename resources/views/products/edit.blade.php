@@ -68,7 +68,7 @@
         </div>
         <div class="mt-6 flex justify-between">
             <div class="flex items-center">
-                <button form="delete-form" class="text-sm font-semibold text-white px-3 py-2 rounded-xl bg-red-800">Delete</button>
+                <x-form.button form="delete-form" :delete="true">Delete</x-form.button>
             </div>
             <div class="flex items-center gap-x-6">
                 <a href="/products" class="text-sm font-semibold text-gray-900 px-3 py-2 rounded-xl bg-gray-300">Cancel</a>

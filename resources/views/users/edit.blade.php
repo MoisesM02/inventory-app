@@ -1,8 +1,8 @@
 <x-layout>
     <x-slot:header>Editing User</x-slot:header>
 
-    <div class="flex m-auto">
-        <x-form.form method="POST" class="md:w-[50vw] sm:w-[80vw]" action="/users/{{ $user->id }}">
+    <div class="m-auto max-w-7xl">
+        <x-form.form method="POST" id="edit-form" class="md:w-[50vw] sm:w-[80vw]" action="/users/{{ $user->id }}">
             @csrf
             @method('PATCH')
             <x-form.field class="">
@@ -29,10 +29,16 @@
                 </x-form.select>
                 <x-form.error name="role" />
             </x-form.field>
-            <div class="mt-4 flex justify-end">
-                <x-form.button>Save Changes</x-form.button>
-            </div>
         </x-form.form>
+        <div class="flex flex-row justify-between my-4 md:w-[50vw] sm:w-[80vw] m-auto">
+            <x-form.modal-confirm
+                method="DELETE"
+                :action="route('users.destroy', $user)"
+            >
+                <x-form.button :delete="true">Delete</x-form.button>
+            </x-form.modal-confirm>
+            <x-form.button form="edit-form">Save Changes</x-form.button>
+        </div>
     </div>
     <x-flash-message/>
 </x-layout>

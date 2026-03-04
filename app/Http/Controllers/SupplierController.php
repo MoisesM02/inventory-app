@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SupplierController extends Controller
 {
@@ -23,7 +24,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        return view('suppliers.create');
     }
 
     /**
@@ -31,7 +32,17 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $supplierAttributes = $request->validate([
+           'name' => ['required', 'string', 'max:64'],
+           'address' => ['required', 'string', 'max:64'],
+           'email' => ['nullable', 'string', 'max:64', 'unique:suppliers,email'],
+           'phone' => ['nullable', 'string', 'max:64'],
+            'contact_person' => ['nullable', 'string', 'max:64'],
+        ]);
+
+        Supplier::create($supplierAttributes);
+
+        return redirect()->route('suppliers.index')->with('success', 'Supplier created successfully.');
     }
 
     /**
@@ -47,7 +58,9 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        dd($supplier);
+        return view('suppliers.edit', [
+            'supplier' => $supplier
+        ]);
     }
 
     /**
@@ -55,7 +68,15 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $supplierAttributes = $request->validate([
+            'name' => ['required', 'string', 'max:64'],
+            'address' => ['required', 'string', 'max:64'],
+            'email' => ['nullable', 'string', 'max:64', Rule::unique('suppliers', 'email')->ignore($supplier->id)],
+            'phone' => ['nullable', 'string', 'max:64'],
+            'contact_person' => ['nullable', 'string', 'max:64'],
+        ]);
+        $supplier->update($supplierAttributes);
+        return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully.');
     }
 
     /**
@@ -63,6 +84,7 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        $supplier->delete();
+        return redirect()->route('suppliers.index')->with('success', 'Supplier has been deleted');
     }
 }

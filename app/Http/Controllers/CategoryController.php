@@ -63,7 +63,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validatedData = $request->validate(['name' => ['required', 'unique:categories,name,']]);
+        $category->update($validatedData);
+        return redirect('/categories')->with('success', 'Category updated!');
     }
 
     /**

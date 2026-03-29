@@ -1,5 +1,5 @@
 @php
-    $pageAggregator = ((request()->get('page') ?? 1) - 1) * 10 //Count accurately the number of categories in pagination
+    $pageAggregator = ((request()->get('page') ?? 1) - 1) * 10; //Count accurately the number of categories in pagination
 @endphp
 <x-layout>
     <x-slot:header>Categories</x-slot:header>
@@ -12,7 +12,12 @@
         filter-text="Filter by product"
     >
         <x-slot:button>
-            <x-modals.trigger name="create-form">Add Category</x-modals.trigger>
+            <div>
+                <x-modals.trigger name="category-form"
+                                  :url=" route('categories.store')">
+                    Add Category
+                </x-modals.trigger>
+            </div>
         </x-slot:button>
         <x-table.wrapper>
             <x-slot:head>
@@ -28,17 +33,29 @@
                     <x-table.td>{{ $loop->iteration + $pageAggregator }}</x-table.td>
                     <x-table.td>{{ $category->name }}</x-table.td>
                     <x-table.td>{{ $category->products->count()}}</x-table.td>
-                    <x-table.td><x-link href="{{ route('categories.edit', $category) }}">Modify</x-link></x-table.td>
+                    <x-table.td>
+                        <x-modals.trigger
+                            type="a"
+                            name="category-form"
+                            :url="route('categories.update', $category->id)"
+                            method="PATCH"
+                            :data="$category"
+                        >
+                            Modify
+                        </x-modals.trigger>
+                    </x-table.td>
                 </tr>
             @endforeach
         </x-table.wrapper>
     </x-table.layout>
     {{ $categories->links() }}
 
-    <x-modals.form name="create-form" :action="route('categories.store')" title="Create New Category" :should-show="$errors->any() ? 'true' : 'false'">
+    <x-modals.form name="category-form"
+                   title="Manage Category"
+                   :should-show="$errors->any() ? 'true' : 'false'">
         <x-form.field>
             <x-form.label for="name">Name</x-form.label>
-            <x-form.input name="name" value="{{ old('name') }}"/>
+            <x-form.input name="name" x-model="formData.name" value="{{ old('name') }}"/>
             <x-form.error name="name"/>
         </x-form.field>
     </x-modals.form>

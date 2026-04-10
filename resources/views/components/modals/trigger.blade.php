@@ -25,7 +25,7 @@
         {{ $slot }}
     </button>
 @else
-    <x-link href="#"
+    <x-link class="my-2" href="#"
        x-data="{ payload: {{ json_encode($data) }} }"
        @click.prevent="$dispatch('open-modal', {
             name: '{{ $name }}',

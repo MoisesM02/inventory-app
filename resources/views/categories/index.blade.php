@@ -34,15 +34,22 @@
                     <x-table.td>{{ $category->name }}</x-table.td>
                     <x-table.td>{{ $category->products->count()}}</x-table.td>
                     <x-table.td>
-                        <x-modals.trigger
-                            type="a"
-                            name="category-form"
-                            :url="route('categories.update', $category->id)"
-                            method="PATCH"
-                            :data="$category"
-                        >
-                            Modify
-                        </x-modals.trigger>
+                        <div class="flex flex-row space-x-2">
+                            <x-modals.trigger
+                                type="a"
+                                name="category-form"
+                                :url="route('categories.update', $category->id)"
+                                method="PATCH"
+                                :data="$category"
+                            >
+                                Modify
+                            </x-modals.trigger>
+                            <form method="POST" action="{{route('categories.destroy', $category)}}">
+                                @method('DELETE')
+                                @csrf
+                                <x-form.button class="text-white hover:bg-red-900 bg-red-700 font-medium text-sm">Delete</x-form.button>
+                            </form>
+                        </div>
                     </x-table.td>
                 </tr>
             @endforeach

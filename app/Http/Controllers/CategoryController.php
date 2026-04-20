@@ -21,13 +21,6 @@ class CategoryController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('categories.create');
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -41,23 +34,6 @@ class CategoryController extends Controller
 
         return redirect('/categories')->with('success', 'Category created!');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */
@@ -73,6 +49,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect('/categories')->with('success', 'Category deleted!');
     }
 }

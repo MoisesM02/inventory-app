@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/purchases/details/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
     Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');
     Route::post('/purchases/outward/{purchase}', [PurchaseController::class, 'outward'])->name('purchases.return');
+
+//Sales
+    Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
+    Route::get('/sales/details/{sale}', [SaleController::class, 'show'])->name('sales.show');
+    Route::post('/sales/outward/{sale}', [SaleController::class, 'outward'])->name('sales.return');
 
 //Users Management
     Route::middleware('can:viewAny,' . User::class)->group(function(){

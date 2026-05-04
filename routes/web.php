@@ -44,11 +44,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
     Route::get('/products/{product}/edit', [ProductController::class, 'edit']);
     Route::patch('/products/{product}/edit', [ProductController::class, 'update']);
-
-//Purchases cart
-    Route::get('/purchases/cart/search', [CartController::class, 'show'])->name('cart.search');
-    Route::get('/purchases/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/purchases/cart', [CartController::class, 'store'])->name('cart.store');
+    
+//Cart
+    Route::get('/cart/search', [CartController::class, 'show'])->name('cart.search');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
     Route::delete('/cart/{productId}', [CartController::class, 'destroy'])->name('cart.destroy');
 
 //Purchases
@@ -61,6 +61,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
     Route::get('/sales/details/{sale}', [SaleController::class, 'show'])->name('sales.show');
     Route::post('/sales/outward/{sale}', [SaleController::class, 'outward'])->name('sales.return');
+
+//Sales Cart
 
 //Users Management
     Route::middleware('can:viewAny,' . User::class)->group(function(){

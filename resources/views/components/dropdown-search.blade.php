@@ -1,8 +1,14 @@
 @props([
-    'route' => route('cart.search'), // Default route, can be change
-    'post' => route('cart.store'),
-    'placeholder' => 'Scan code or type name/ID...'
+    'type', // We require the type to be passed in ('purchase' or 'sale')
+    'route' => route('cart.search'),
+    'placeholder' => 'Scan code or type name/ID...',
+    'post' => null // We will calculate this dynamically below
 ])
+
+@php
+    // If a post route isn't explicitly provided, generate it using the type
+    $submitRoute = $post ?? route('cart.store', ['type' => $type]);
+@endphp
 
 <div
     x-data="productSearch('{{ $route }}')"
@@ -40,12 +46,19 @@
         x-transition:enter-end="transform opacity-100 scale-100"
     >
         <template x-for="product in results" :key="product.id">
+            <!--
+                DYNAMIC DATA: Check the type string to see if we should load the DB cost or DB price
+            -->
             <div
-                x-data="{ qty: 1, cost: product.cost, unit : product.unit}"
+                x-data="{
+                    qty: 1,
+                    unit_price: '{{ $type }}' === 'purchase' ? product.cost : product.price,
+                    unit: product.unit
+                }"
                 class="border-b last:border-b-0 hover:bg-gray-50 transition-colors"
             >
                 <div class="overflow-x-auto">
-                    <form action="{{ $post }}" method="POST" class="flex items-center gap-4 p-4 min-w-[500px]">
+                    <form action="{{ $submitRoute }}" method="POST" class="flex items-center gap-4 p-4 min-w-[500px]">
                         @csrf
                         <input type="hidden" name="product_id" :value="product.id">
 
@@ -58,14 +71,18 @@
                         </div>
 
                         <div class="w-24 shrink-0">
-                            <label class="block text-[10px] text-gray-500 uppercase font-bold mb-1">Cost</label>
+                            <!-- DYNAMIC LABEL: Shows Cost or Price depending on context -->
+                            <label class="block text-[10px] text-gray-500 uppercase font-bold mb-1">
+                                {{ $type === 'purchase' ? 'Cost' : 'Price' }}
+                            </label>
                             <div class="relative">
                                 <span class="absolute left-2 top-1.5 text-gray-400 text-xs">$</span>
+                                <!-- CHANGED: name is now unit_price, x-model is unit_price -->
                                 <input
                                     type="number"
                                     step="0.01"
-                                    name="cost"
-                                    x-model="cost"
+                                    name="unit_price"
+                                    x-model="unit_price"
                                     class="w-full pl-5 pr-2 py-1 text-sm border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
                                 >
                             </div>
@@ -97,6 +114,7 @@
         </template>
     </div>
 
+    <!-- No Results Div (Unchanged) ... -->
     <div
         x-show="query.length > 1 && results.length === 0 && !isLoading"
         class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-4 text-center text-gray-500 text-sm"

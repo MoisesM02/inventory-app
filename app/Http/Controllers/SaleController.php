@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Costumer;
+use App\Models\Customer;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 
@@ -13,16 +13,16 @@ class SaleController extends Controller
      */
     public function index(Request $request)
     {
-        $costumers = Costumer::orderBy('name')->get();
+        $customer = Customer::orderBy('name')->get();
         $sales = Sale::orderBy('created_at', 'desc')
-            ->with('costumer')
+            ->with('customer')
             ->withCount('details');
         if ($request->supplier)
-            $sales->where('costumer_id', '=', $request->costumer );
+            $sales->where('customer_id', '=', $request->customer );
 
         return view('sales.index',[
             'sales' => $sales->paginate(10),
-            'costumers' => $costumers
+            'customers' => $customer
         ]);
     }
 

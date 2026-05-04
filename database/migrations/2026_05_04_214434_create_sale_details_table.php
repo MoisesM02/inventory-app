@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Sale;
 use Illuminate\Database\Migrations\Migration;
@@ -14,21 +13,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('sale_details', function (Blueprint $table) {
             $table->id();
-            $table->string('invoice_number');
-            $table->string('description');
-            $table->double('total_price');
-            $table->foreignIdFor(Customer::class)->constrained()->cascadeOnUpdate();
+            $table->foreignIdFor(Sale::class);
+            $table->foreignIdFor(Product::class);
+            $table->integer('quantity');
+            $table->float('price');
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
         Schema::dropIfExists('sale_details');
     }
 };

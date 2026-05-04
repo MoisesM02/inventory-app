@@ -44,14 +44,14 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
     Route::get('/products/{product}/edit', [ProductController::class, 'edit']);
     Route::patch('/products/{product}/edit', [ProductController::class, 'update']);
-    
-//Cart
-    Route::get('/cart/search', [CartController::class, 'show'])->name('cart.search');
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
-    Route::delete('/cart/{productId}', [CartController::class, 'destroy'])->name('cart.destroy');
 
-//Purchases
+// Cart Routes (Now Context-Aware)
+    Route::get('/cart/search', [CartController::class, 'show'])->name('cart.search');
+    Route::get('/cart/{type}', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/{type}', [CartController::class, 'store'])->name('cart.store');
+    Route::delete('/cart/{type}/{productId}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+// Purchases Routes (Unchanged)
     Route::get('/purchases', [PurchaseController::class, 'index'])->name('purchases.index');
     Route::get('/purchases/details/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
     Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');
@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
 //Sales
     Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
     Route::get('/sales/details/{sale}', [SaleController::class, 'show'])->name('sales.show');
+    Route::post('/sales', [SaleController::class, 'store'])->name('sales.store');
     Route::post('/sales/outward/{sale}', [SaleController::class, 'outward'])->name('sales.return');
 
 //Sales Cart

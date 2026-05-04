@@ -4,23 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Purchase;
 use App\Models\Supplier;
-use App\Services\CartService;
-use App\Services\PurchaseService;
+use App\Factories\CartFactory;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $suppliers = Supplier::orderBy('name')->get();
         $purchases = Purchase::orderBy('created_at', 'desc')
-        ->with('supplier')
-        ->withCount('details');
-        if ($request->supplier)
-            $purchases->where('supplier_id', '=', $request->supplier );
+            ->with('supplier')
+            ->withCount('details');
+
+        if ($request->supplier) {
+            $purchases->where('supplier_id', '=', $request->supplier);
+        }
 
         return view('purchases.index',[
             'purchases' => $purchases->paginate(10),
@@ -29,64 +27,46 @@ class PurchaseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, CartService $cartService, PurchaseService $purchaseService)
+    public function store(Request $request)
     {
+        // Validate the specific purchase header data
         $validatedData = $request->validate([
-            'supplier_id' => ['required','integer', 'exists:suppliers,id'],
+            'supplier_id'    => ['required','integer', 'exists:suppliers,id'],
             'invoice_number' => ['required', 'string', 'max:32', 'unique:purchases,invoice_number'],
-            'description' => ['nullable', 'string', 'max:255'],
+            'description'    => ['nullable', 'string', 'max:255'],
         ]);
 
-        $products = $cartService->getCartContents();
+        // Instantiate the specific Purchase Cart Service
+        $cartService = CartFactory::make('purchase');
 
-        if ($products->isEmpty()) {
-            return redirect('/');
+        if ($cartService->getItems()->isEmpty()) {
+            return redirect()->route('cart.index', ['type' => 'purchase'])
+                ->with('error', 'Your purchase cart is empty.');
         }
-        $processed = $purchaseService->process($products, $validatedData);
-        if($processed)
-        {
-            $cartService->clear();
-            return redirect(route('purchases.index'))->with('success', 'Purchase stored successfully!' );
+
+        // Process the transaction (This handles creating the Purchase, Details, and Stock)
+        $processed = $cartService->processTransaction($validatedData);
+
+        if ($processed) {
+            return redirect()->route('purchases.index')
+                ->with('success', 'Purchase stored successfully!');
         }
-        return redirect(route('cart.index'))->with('error', 'There was a problem processing the purchase' );
+
+        return redirect()->route('cart.index', ['type' => 'purchase'])
+            ->with('error', 'There was a problem processing the purchase.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Purchase $purchase)
     {
+        // Your existing show method is perfect. It relies on Eloquent,
+        // not the cart, which is exactly how it should be.
         $details = $purchase->details()->with('product')->get();
         return view('purchases.show', [
             'purchase' => $purchase,
             'details' => $details
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Purchase $purchase)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Purchase $purchase)
-    {
-        //
     }
 
     public function outward(Purchase $purchase)

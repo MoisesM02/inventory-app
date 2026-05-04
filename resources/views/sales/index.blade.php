@@ -2,13 +2,13 @@
     <x-slot:header>Purchases</x-slot:header>
 
     <x-table.layout
-        :filters="$costumers"
+        :filters="$customers"
         title="Sales"
         filter-text="Filter by costumer:"
         description="All sales made"
         button-text="Add new sale"
         filter-name="customer"
-        button-url="{{ route('cart.index') }}">
+        button-url="{{ route('cart.index', 'sale') }}">
 
         <x-table.wrapper>
             <x-slot:head>
@@ -26,7 +26,7 @@
                 <tr>
                     <x-table.td> {{ $loop->index + 1}}</x-table.td>
                     <x-table.td> {{ $sale->invoice_number }}</x-table.td>
-                    <x-table.td> <p class="font-bold">{{ $sale->costumer->name }}</p></x-table.td>
+                    <x-table.td> <p class="font-bold">{{ $sale->customer->name }}</p></x-table.td>
                     <x-table.td>${{ $sale->total_price}}</x-table.td>
                     <x-table.td> {{ $sale->details_count}}</x-table.td>
                     <x-table.td> {{ $sale->created_at->format('D M d Y')}}</x-table.td>

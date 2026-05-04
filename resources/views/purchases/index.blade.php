@@ -8,7 +8,7 @@
         description="All purchases made"
         button-text="Add new purchase"
         filter-name="supplier"
-        button-url="{{ route('cart.index') }}">
+        button-url="{{ route('cart.index', 'purchase') }}">
 
         <x-table.wrapper>
             <x-slot:head>

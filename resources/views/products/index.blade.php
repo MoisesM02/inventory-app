@@ -26,8 +26,8 @@
                         <x-table.td><p class="text-md font-bold">{{ $product->name}} </p></x-table.td>
                         <x-table.td>{{ $product->code}}</x-table.td>
                         <x-table.td>{{ $product->unit}}</x-table.td>
-                        <x-table.td>${{ $product->price}}</x-table.td>
-                        <x-table.td>${{ $product->cost}}</x-table.td>
+                        <x-table.td>${{ number_format($product->price,5)}}</x-table.td>
+                        <x-table.td>${{ number_format($product->cost, 5)}}</x-table.td>
                         <x-table.td>{{ $product->categories->pluck('name')->join(', ')}}</x-table.td>
                         <x-table.td>{{ $product->stock}}</x-table.td>
                         <x-table.td><a href="/products/{{ $product->id }}/edit" class="text-blue-700 hover:underline">Edit</a></x-table.td>

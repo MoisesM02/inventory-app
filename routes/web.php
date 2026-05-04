@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -44,17 +45,25 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/products/{product}/edit', [ProductController::class, 'edit']);
     Route::patch('/products/{product}/edit', [ProductController::class, 'update']);
 
-//Purchases cart
-    Route::get('/purchases/cart/search', [CartController::class, 'show'])->name('cart.search');
-    Route::get('/purchases/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/purchases/cart', [CartController::class, 'store'])->name('cart.store');
-    Route::delete('/cart/{productId}', [CartController::class, 'destroy'])->name('cart.destroy');
+// Cart Routes (Now Context-Aware)
+    Route::get('/cart/search', [CartController::class, 'show'])->name('cart.search');
+    Route::get('/cart/{type}', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/{type}', [CartController::class, 'store'])->name('cart.store');
+    Route::delete('/cart/{type}/{productId}', [CartController::class, 'destroy'])->name('cart.destroy');
 
-//Purchases
+// Purchases Routes (Unchanged)
     Route::get('/purchases', [PurchaseController::class, 'index'])->name('purchases.index');
     Route::get('/purchases/details/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
     Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');
     Route::post('/purchases/outward/{purchase}', [PurchaseController::class, 'outward'])->name('purchases.return');
+
+//Sales
+    Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
+    Route::get('/sales/details/{sale}', [SaleController::class, 'show'])->name('sales.show');
+    Route::post('/sales', [SaleController::class, 'store'])->name('sales.store');
+    Route::post('/sales/outward/{sale}', [SaleController::class, 'outward'])->name('sales.return');
+
+//Sales Cart
 
 //Users Management
     Route::middleware('can:viewAny,' . User::class)->group(function(){

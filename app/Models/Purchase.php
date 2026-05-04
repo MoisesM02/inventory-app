@@ -18,6 +18,7 @@ class Purchase extends Model
         'supplier_id',
         'invoice_number',
         'description',
+        'total_cost'
     ];
 
     public function supplier(): BelongsTo
